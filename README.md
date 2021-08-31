@@ -1,6 +1,4 @@
-# HW5
-
-Pipelines & Paralellism & HDF5 Data Sets
+# Pipelines & Paralellism & HDF5 Data Sets
 
 ## Tasks
 
