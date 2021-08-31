@@ -1,0 +1,86 @@
+Bootstrap: library
+From: paul/bil/ces
+
+%post
+    apt-get update
+    export DEBIAN_FRONTEND=noninteractive
+    export XDG_CACHE_HOME=/tmp/xdg_cache
+
+    apt-get -qq install build-essential gfortran cmake
+    apt-get -qq install python3-dev
+
+    pip install cython pybind11
+    NPY_NUM_BUILD_JOBS=$NUM_CPUS pip install numpy --no-binary numpy
+    NPY_NUM_BUILD_JOBS=$NUM_CPUS pip install scipy --no-binary scipy
+    pip install matplotlib pandas sympy ipython PyYAML
+
+    apt-get -qq autoremove
+    apt-get -qq clean
+
+    rm -rf $XDG_CACHE_HOME
+
+    export HDF5=1_10_6
+    export HDF5_PATH=/usr/local
+    export H5PY=2.10.0
+
+    apt-get -qq install zlib1g
+    apt-get -qq install zlib1g-dev
+
+    wget -q https://github.com/live-clones/hdf5/archive/hdf5-$HDF5.tar.gz -O /tmp/hdf5-$HDF5.tar.gz
+    tar -C /tmp -xf /tmp/hdf5-$HDF5.tar.gz
+    cd /tmp/hdf5-hdf5-$HDF5
+    ./configure --enable-build-mode=production --enable-parallel --prefix=$HDF5_PATH
+    make -j 4
+    make install
+    cd /tmp
+    rm -rf /tmp/hdf5-hdf5-$HDF5
+    rm /tmp/hdf5-$HDF5.tar.gz
+
+    ldconfig
+
+    export CC=mpicc
+    rm -rf /tmp/h5py-$H5PY
+    wget -q https://github.com/h5py/h5py/archive/$H5PY.tar.gz -O /tmp/h5py-$H5PY.tar.gz
+    tar -C /tmp -xf /tmp/h5py-$H5PY.tar.gz
+    cd /tmp/h5py-$H5PY
+    python3 setup.py configure --mpi --hdf5=$HDF5_PATH
+    python3 setup.py build
+    pip install .
+    export CC=
+    cd /tmp
+    rm -rf /tmp/h5py-$H5PY
+    rm /tmp/h5py-$H5PY.tar.gz
+
+    pip install h5py-cache tables
+
+    rm -rf $XDG_CACHE_HOME
+
+    apt-get -qq autoremove
+    apt-get -qq clean
+    
+    export DEBIAN_FRONTEND=noninteractive
+    export XDG_CACHE_HOME=/tmp/xdg_cache
+
+    apt-get -qq install build-essential gfortran cmake
+    apt-get -qq install python3-dev
+
+    pip install cython pybind11
+    NPY_NUM_BUILD_JOBS=$NUM_CPUS pip install os --no-binary os
+    NPY_NUM_BUILD_JOBS=$NUM_CPUS pip install dash --no-binary dash
+        NPY_NUM_BUILD_JOBS=$NUM_CPUS pip install holoviews --no-binary holoviews
+    pip install matplotlib pandas sympy ipython PyYAML
+
+    apt-get -qq autoremove
+    apt-get -qq clean
+
+    rm -rf $XDG_CACHE_HOME
+
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+
+%help
+    SciPy stack - Intel MKL optimized
+      IPython
