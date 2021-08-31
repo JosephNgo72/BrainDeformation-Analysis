@@ -1,18 +1,10 @@
 # HW5
 
-Pipelines & Paralellism
+Pipelines & Paralellism & HDF5 Data Sets
 
-## Goals
+## Tasks
 
-The goal of this homework assignment is to explore how to build pipelines with slurm and run parallel jobs.
-
-As before, homework must be completed in Markdown, pushed to a private GitLab repository, rendered to PDF, and then saved back into the repository. A zip file of the repository (including markdown, PDF, any other work files, and exclusing the .git directory) must be submitted for peer grading.
-
-Do not simply fork the repository. For this assignment, clone this repository directly, and then set up a second remote with which you push your changes to. This will allow you to pull changes from the originating repository and continue to push changes to your private repository. Additionally, set up HW1 as a submodule of this HW so there is a copy of questions 1, 2, and 3 to describe the dataset.
-
-## Questions
-
-1. Make HW1 a submodule of HW5
+1. Create a description module for your data analysis
 2. Job-based visualization
     Firstly, I went in my visualization code and instead of saving the layout I made to an html file, 
     I set up a bokeh server using the HoloViews library as such:   
